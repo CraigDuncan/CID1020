@@ -11,7 +11,6 @@ public class ToolsPOS {
 	private Hashtable<String, Tool> tools;
 	private Hashtable<String, Type> types;
 	public ToolsPOS() {
-		// TODO Auto-generated constructor stub
 		this.tools = new Hashtable<String, Tool>();
 		this.loadTools(); // generate tool database
 		this.types = new Hashtable<String, Type>();
@@ -24,21 +23,36 @@ public class ToolsPOS {
 		String pattern = "MM/dd/yy";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		try {
-			System.out.print(testPOS.checkout("JAKR", 5, simpleDateFormat.parse("09/03/15"), 101));
+			System.out.print(testPOS.checkout("JAKR", 5, simpleDateFormat.parse("09/03/15"), 50));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
 			e.printStackTrace();
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 	
-	public RentalAgreement checkout(String toolCode,  int rentalDays, Date checkOutDate, int discountPercent){
+	public RentalAgreement checkout(String toolCode,  int rentalDays, Date checkOutDate, int discountPercent) throws Exception{
+		if (rentalDays < 1) {
+			throw new Exception("A tool can not be rented for less than 1 day.");
+		}
+		if (100 < discountPercent || discountPercent< 0) {
+			throw new Exception("Discount percent must be between 0 and 100.");
+		}
 		Tool tool = this.tools.get(toolCode);
+		if (tool == null) { //if database lookup failed raise exception
+			throw new Exception("Tool Code is not Valid");
+		}
 		Type type = this.types.get(tool.getType());
+		if (type == null) { //shouldn't happen but raise exception in event database has error.
+			throw new Exception("Tool type \""+tool.getType()+"\" was not found.");
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(checkOutDate);
 		int chargeDays = countChargeDays(type, calendar, rentalDays);
-		System.out.println(checkOutDate);
-		System.out.println(calendar.getTime());
+		//System.out.println(checkOutDate);
+		//System.out.println(calendar.getTime());
 		return new RentalAgreement(toolCode, tool.getType(), tool.getBrand(), rentalDays, checkOutDate, calendar.getTime(), type.dailyCharge, chargeDays, discountPercent);
 	}
 	
