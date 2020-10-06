@@ -23,7 +23,6 @@ public class ToolsPOS {
 	 * @param args - only for internal testing
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		ToolsPOS testPOS = new ToolsPOS();
 		String pattern = "MM/dd/yy";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);

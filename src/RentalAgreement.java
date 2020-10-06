@@ -62,8 +62,8 @@ public class RentalAgreement {
 				"\nDue date: " + simpleDateFormat.format(this.dueDate) + 
 				"\nDaily rental charge: " + currencyFormat.format(this.dailyRentalCharge) + 
 				"\nCharge days: " + this.chargeDays +
-				"\nPre-discount charge: " + this.discountPercent +"%"+
-				"\nDiscount percent:  " +  currencyFormat.format(this.preDiscountCharge) +
+				"\nPre-discount charge: " + currencyFormat.format(this.preDiscountCharge) +
+				"\nDiscount percent:  " + this.discountPercent +"%"  +
 				"\nDiscount amount:  " +  currencyFormat.format(this.discountAmount) +
 				"\nFinal charge: " +  currencyFormat.format(this.finalCharge);
 	}
@@ -73,6 +73,44 @@ public class RentalAgreement {
 	 */
 	public void printAgreement() {
 		System.out.println(this.toString());
+	}
+	
+	//Get functions for use in jUnit tests.
+	public String getToolCode() {
+		return toolCode;
+	}
+	public String getToolType() {
+		return toolType;
+	}
+	public String getToolBrand() {
+		return toolBrand;
+	}
+	public int getRentalDays() {
+		return rentalDays;
+	}
+	public Date getCheckOutDate() {
+		return checkOutDate;
+	}
+	public Date getDueDate() {
+		return dueDate;
+	}
+	public double getDailyRentalCharge() {
+		return dailyRentalCharge;
+	}
+	public int getChargeDays() {
+		return chargeDays;
+	}
+	public double getPreDiscountCharge() {
+		return preDiscountCharge;
+	}
+	public int getDiscountPercent() {
+		return discountPercent;
+	}
+	public double getDiscountAmount() {
+		return discountAmount;
+	}
+	public double getFinalCharge() {
+		return finalCharge;
 	}
 	
 }
