@@ -3,6 +3,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+/**
+ * @author Craig
+ *
+ */
 public class RentalAgreement {
 
 	private String toolCode;
@@ -18,6 +22,17 @@ public class RentalAgreement {
 	private double discountAmount;
 	private double finalCharge;
 	
+	/**
+	 * @param toolCode - code of tool that was rented
+	 * @param toolType - type of tool that was rented
+	 * @param toolBrand - brand of tool that was rented
+	 * @param rentalDays - length of rental in days
+	 * @param checkOutDate - date rental occurred
+	 * @param dueDate - date tool is to be returned
+	 * @param dailyRentalCharge - daily rate for rental of tool
+	 * @param chargeDays - number of days being charged for in rental period
+	 * @param discountPercent - discount to be applied to rental.
+	 */
 	public RentalAgreement(String toolCode, String toolType, String toolBrand, int rentalDays, Date checkOutDate, Date dueDate, double dailyRentalCharge, int chargeDays, int discountPercent) {
 		this.toolCode = toolCode;
 		this.toolType = toolType;
@@ -32,6 +47,9 @@ public class RentalAgreement {
 		this.discountAmount = Math.round(this.preDiscountCharge * this.discountPercent) / 100.0; //constant 100 is to convert to percent from whole number.
 		this.finalCharge = (this.preDiscountCharge - this.discountAmount);
 	}
+	/**
+	 * generate string with all class elements formated for printing.
+	 */
 	public String toString() {
 		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(); //set up currency formating. Country can be changed and all prints update.
 		String pattern = "MM/dd/yy";
@@ -50,6 +68,9 @@ public class RentalAgreement {
 				"\nFinal charge: " +  currencyFormat.format(this.finalCharge);
 	}
 
+	/**
+	 * print class contents to console
+	 */
 	public void printAgreement() {
 		System.out.println(this.toString());
 	}

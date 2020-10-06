@@ -1,5 +1,3 @@
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,6 +5,10 @@ import java.util.Date;
 import java.util.Hashtable;
 
 
+/**
+ * @author Craig
+ *
+ */
 public class ToolsPOS {
 	private Hashtable<String, Tool> tools;
 	private Hashtable<String, Type> types;
@@ -17,13 +19,16 @@ public class ToolsPOS {
 		this.loadTypes(); //generate tool type database
 	}
 
+	/**
+	 * @param args - only for internal testing
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ToolsPOS testPOS = new ToolsPOS();
 		String pattern = "MM/dd/yy";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		try {
-			System.out.print(testPOS.checkout("JAKR", 5, simpleDateFormat.parse("09/03/15"), 50));
+			System.out.print(testPOS.checkout("JAKR", 50000, simpleDateFormat.parse("09/03/15"), 0));
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
@@ -33,6 +38,14 @@ public class ToolsPOS {
 		}
 	}
 	
+	/**
+	 * @param toolCode - identifier code for the tool being rented.
+	 * @param rentalDays - number of days the tool will be rented for.
+	 * @param checkOutDate - Date the tool was rented
+	 * @param discountPercent - whole number percentage discount to be applied 0-100
+	 * @return - new instance of rental agreement class with all transaction data.
+	 * @throws Exception - possible output when input values are improper
+	 */
 	public RentalAgreement checkout(String toolCode,  int rentalDays, Date checkOutDate, int discountPercent) throws Exception{
 		if (rentalDays < 1) {
 			throw new Exception("A tool can not be rented for less than 1 day.");
@@ -56,6 +69,9 @@ public class ToolsPOS {
 		return new RentalAgreement(toolCode, tool.getType(), tool.getBrand(), rentalDays, checkOutDate, calendar.getTime(), type.dailyCharge, chargeDays, discountPercent);
 	}
 	
+	/**
+	 * Initializes tools dictionary
+	 */
 	public void loadTools() {
 		//tool load could be updated to load from a file or database using a loop
 		Tool tool = new Tool("Ladder", "Werner","LADW"); // replaceable with a loop based load in the future
@@ -68,6 +84,9 @@ public class ToolsPOS {
 		this.tools.put(tool.getCode(), tool);
 	}
 	
+	/**
+	 * Initializes toolTypes dictionary
+	 */
 	public void loadTypes() { 
 		Type type = new Type(1.99, true, true, false); // as with tool load this could be looped to read from file or database
 		this.types.put("Ladder", type);
@@ -77,6 +96,12 @@ public class ToolsPOS {
 		this.types.put("Jackhammer", type); // type key might be more robust as a enum
 	}
 
+	/**
+	 * @param toolType - The type of tool being charged for
+	 * @param calendar -start of charge period date. returns as end of charge period date. (sideffect)
+	 * @param rentalDays - Number of days the rental is for
+	 * @return
+	 */
 	public int countChargeDays(Type toolType, Calendar calendar, int rentalDays) {
 		int count = 0;
 		boolean chargeDay = true;
@@ -100,6 +125,10 @@ public class ToolsPOS {
 		return count;
 	}
 	
+	/**
+	 * @param calendar - calendar class instance referencing the day being tested.
+	 * @return - boolean value if the day is a holiday or not.
+	 */
 	public boolean isDateHoliday(Calendar calendar) {
 		if (calendar.get(Calendar.MONTH)== Calendar.JULY) {
 			if (!this.isDateWeekend(calendar)) {
@@ -120,6 +149,10 @@ public class ToolsPOS {
 		return false;
 	}
 	
+	/**
+	 * @param calendar - calendar class instance referencing the day being tested.
+	 * @return - boolean value if the day is a weekend.
+	 */
 	public boolean isDateWeekend(Calendar calendar) {
 		return (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || 
 				calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);

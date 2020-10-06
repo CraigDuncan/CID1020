@@ -5,6 +5,12 @@ public class Type {
 	public boolean weekday;
 	public boolean weekend;
 	public boolean holiday;
+	/**
+	 * @param dailyCharge -  the daily charge for this type of tool
+	 * @param weekday - boolean value of if the tool is charged for weekday rentals
+	 * @param weekend - boolean value of if the tool is charged for weekend rentals
+	 * @param holiday - boolean value of if the tool is charged when rented on holidays.
+	 */
 	public Type(double dailyCharge, boolean weekday, boolean weekend, boolean holiday) {
 		this.dailyCharge= dailyCharge;
 		this.weekday = weekday;
